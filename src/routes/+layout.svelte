@@ -1,7 +1,8 @@
 <script lang="ts">
-	import '../app.css';
-
-	let { children } = $props();
+	import '../app.css';    
+    import { ModeWatcher } from "mode-watcher";
+	export let data;
 </script>
 
-{@render children()}
+<ModeWatcher />
+<slot />

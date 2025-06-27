@@ -8,7 +8,7 @@
   // data.user will be present if logged in
 </script>
 
-<main>
+<main class="relative">
   <HeroSection>
     <div class="flex gap-4 justify-center">
       {#if data?.user}
