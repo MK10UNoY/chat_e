@@ -1,38 +1,48 @@
-# sv
+# Chat.E
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern SvelteKit project. Follow these steps to run it locally using [pnpm](https://pnpm.io/).
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [Node.js](https://nodejs.org/) (v18 or newer recommended)
+- [pnpm](https://pnpm.io/) (v7 or newer)
+
+## Getting Started
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/MK10UNoY/chat_e.git
+   cd chat_e
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Run the development server:**
+
+   ```bash
+   pnpm dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+## Building for Production
+
+To create a production build:
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+pnpm build
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To preview the production build locally:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm preview
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Notes
+- If you use environment variables, copy `.env.example` to `.env` and fill in your values (if applicable).
+- For deployment, refer to [SvelteKit adapters](https://kit.svelte.dev/docs/adapters) for your target platform.
