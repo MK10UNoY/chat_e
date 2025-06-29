@@ -47,14 +47,19 @@
 		]
 	},
 	"dependencies": {
+		"@internationalized/date": "^3.8.2",
 		"@supabase/auth-helpers-sveltekit": "^0.13.0",
 		"@supabase/ssr": "^0.6.1",
+		"@supabase/supabase-js": "^2.50.2",
+		"@types/three": "^0.177.0",
 		"bits-ui": "^2.8.10",
 		"clsx": "^2.1.1",
+		"date-fns": "^4.1.0",
 		"init": "^0.1.2",
 		"md5": "^2.3.0",
 		"mode-watcher": "^1.0.8",
 		"shadcn-svelte": "^1.0.4",
-		"tailwind-merge": "^3.3.1"
+		"tailwind-merge": "^3.3.1",
+		"three": "^0.177.0"
 	}
 }

@@ -3,7 +3,7 @@
 	import ChartPieIcon from "@lucide/svelte/icons/chart-pie";
 	import GalleryVerticalEndIcon from "@lucide/svelte/icons/gallery-vertical-end";
 	import Settings2Icon from "@lucide/svelte/icons/settings-2";
-	import md5 from 'md5';
+	// import md5 from 'md5';
 	import SunIcon from "@lucide/svelte/icons/sun";
 	import MoonIcon from "@lucide/svelte/icons/moon";
 	import { toggleMode } from "mode-watcher";
@@ -86,7 +86,8 @@
 		const name = email.split('@')[0];
 		const localAvatar = `/avatars/${name}.jpg`;
 		// Try Gravatar
-		const gravatar = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=404`;
+		const gravatar = localAvatar;
+		//const gravatar = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=404`;
 		return { localAvatar, gravatar };
 	}
 

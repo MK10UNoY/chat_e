@@ -31,7 +31,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
       .eq('id', chat.medical_context_id)
       .eq('user_id', user.id)
       .single();
-    
+
     if (!contextError && context) {
       medicalContext = context;
     }
@@ -49,9 +49,9 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     return { chat, messages: [], user, medicalContext };
   }
 
-  return { 
-    chat, 
-    messages: messages || [], 
+  return {
+    chat,
+    messages: messages || [],
     user,
     medicalContext
   };
@@ -143,6 +143,21 @@ export const actions: Actions = {
       const agentData = await agentResponse.json();
       console.log('Agent response:', agentData);
 
+      // After updating the message with the agent's response, add debug logs
+      console.log('Updating message with agent response:', {
+        userMessageId: userMessage.id,
+        agentReply: agentData.reply
+      });
+
+      const { data: updatedMessage, error: updateError } = await locals.supabase
+        .from('messages')
+        .update({ responses: agentData.reply })
+        .eq('id', userMessage.id)
+        .select()
+        .single();
+
+      console.log('Updated message row:', { updatedMessage, updateError });
+
       // Return both the user message and agent reply
       return {
         type: 'success',
@@ -169,10 +184,18 @@ export const actions: Actions = {
 // Healthcare-focused AI response generation
 async function generateHealthcareAIResponse(userMessage: string, chatTitle: string, medicalContext: any): Promise<string> {
   const message = userMessage.toLowerCase();
-  
+
   // Medical disclaimer
-  const disclaimer = "\n\n⚠️ **Medical Disclaimer**: This information is for educational purposes only and should not replace professional medical advice. Please consult with a healthcare provider for proper diagnosis and treatment.";
-  
+  const disclaimer = "\n\n **Medical Disclaimer**: This information is for educational purposes only and should not replace professional medical advice. Please consult with a healthcare provider for proper diagnosis and treatment.";
+
+  const responses = [
+    "I understand your health concern. Let me help you with that.",
+    "That's an important health question. Here's what I can tell you about that.",
+    "I'd be happy to help you with your health inquiry. Let me provide some information.",
+    "Thank you for sharing that health concern with me. I can help you understand this better.",
+    "I see what you're asking about regarding your health. Let me give you a comprehensive answer."
+  ];
+
   // Context-aware responses based on message content
   if (message.includes('headache') && message.includes('fever')) {
     return `I understand you're experiencing a headache and fever. These symptoms can have various causes, from common colds to more serious conditions.
@@ -196,7 +219,7 @@ async function generateHealthcareAIResponse(userMessage: string, chatTitle: stri
 
 ${disclaimer}`;
   }
-  
+
   if (message.includes('medication') || message.includes('side effect')) {
     return `I can help you understand medication information, but I'll need more specific details to provide accurate guidance.
 
@@ -218,7 +241,7 @@ ${disclaimer}`;
 
 ${disclaimer}`;
   }
-  
+
   if (message.includes('lab result') || message.includes('blood test')) {
     return `I can help you understand lab results, but I'll need to see the actual values and reference ranges to provide meaningful interpretation.
 
@@ -240,7 +263,7 @@ ${disclaimer}`;
 
 ${disclaimer}`;
   }
-  
+
   if (message.includes('lifestyle') || message.includes('health')) {
     return `Great question! Lifestyle changes can have a significant impact on your health. Here are some evidence-based recommendations:
 
@@ -260,45 +283,11 @@ ${disclaimer}`;
 • Start with small, sustainable changes
 • Track your progress
 • Celebrate small wins
-• Don't hesitate to ask for professional guidance
+• Don't hesitate to seek professional guidance.
 
 ${disclaimer}`;
   }
-  
-  // Default healthcare response
-  const responses = [
-    "I understand your health concern. Let me help you with that.",
-    "That's an important health question. Here's what I can tell you about that.",
-    "I'd be happy to help you with your health inquiry. Let me provide some information.",
-    "Thank you for sharing that health concern with me. I can help you understand this better.",
-    "I see what you're asking about regarding your health. Let me give you a comprehensive answer."
-  ];
-  
+
   return responses[Math.floor(Math.random() * responses.length)] + 
     " This is a placeholder response. In a real implementation, you would integrate with an AI service like OpenAI or Claude to generate contextual, helpful responses based on the user's message and any medical context available." + disclaimer;
 }
-
-async function generateHealthcareChatTitle(firstMessage: string): Promise<string> {
-  const message = firstMessage.toLowerCase();
-  
-  if (message.includes('headache') || message.includes('fever')) {
-    return 'Headache & Fever Consultation';
-  }
-  if (message.includes('medication')) {
-    return 'Medication Questions';
-  }
-  if (message.includes('lab') || message.includes('blood')) {
-    return 'Lab Results Discussion';
-  }
-  if (message.includes('lifestyle') || message.includes('health')) {
-    return 'Lifestyle & Wellness';
-  }
-  if (message.includes('symptom')) {
-    return 'Symptom Assessment';
-  }
-  
-  // Extract key words from the first message to create a meaningful title
-  const words = firstMessage.toLowerCase().split(' ').slice(0, 5);
-  const title = words.join(' ').replace(/[^\w\s]/g, '');
-  return title.charAt(0).toUpperCase() + title.slice(1) || 'Health Consultation';
-} 

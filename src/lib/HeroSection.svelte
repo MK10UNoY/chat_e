@@ -1,56 +1,40 @@
 <script lang="ts">
-  export let title: string = 'Connect. Chat. Create.';
-  export let subtitle: string = 'Experience seamless, intelligent messaging with our next-gen chat platform—where AI meets real connection.';
-  let card: HTMLDivElement | null = null;
-  let rotateX = 0;
-  let rotateY = 0;
-
-  function handleMouseMove(e: MouseEvent) {
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateMax = 15; // degrees
-    rotateY = ((x - centerX) / centerX) * rotateMax;
-    rotateX = -((y - centerY) / centerY) * rotateMax;
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }
-
-  function handleMouseLeave() {
-    if (!card) return;
-    card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
-  }
+  export let title: string = 'We help brands create digital experiences that connect with their audience';
+  export let subtitle: string = '';
 </script>
 
-<div class="min-h-[60vh] bg-white flex items-center justify-center px-2">
-  <div
-    bind:this={card}
-    class="w-full max-w-2xl rounded-3xl shadow-2xl bg-white p-8 sm:p-12 flex flex-col items-center transition-transform duration-200"
-    on:mousemove={handleMouseMove}
-    on:mouseleave={handleMouseLeave}
-    style="will-change: transform;"
-  >
-    <h1 class="text-3xl sm:text-5xl font-extrabold mb-4 text-gray-900 text-center">
-      {title}<br />
-      <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">AI-Powered Conversations</span>
-    </h1>
-    <p class="text-base sm:text-xl mb-6 text-gray-600 text-center">
-      {subtitle}
-    </p>
-    <div class="flex gap-4 justify-center mb-6 w-full flex-wrap">
-      <slot />
+<div class="min-h-[80vh] w-full bg-[#f5f6fa] rounded-2xl p-4 sm:p-8 flex flex-col gap-6 border border-gray-200 shadow-lg">
+  <!-- Hero Header Row -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+    <!-- Logo/Brand -->
+    <div class="flex-1 flex items-center justify-start w-full">
+      <span class="text-3xl font-semibold tracking-tight text-black">LUSION</span>
     </div>
-    <div class="mt-4 w-full flex justify-center">
-      <!-- Simple modern chat/AI SVG icon -->
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="20" width="60" height="32" rx="16" fill="#f3f4f6" />
-        <rect x="24" y="34" width="32" height="8" rx="4" fill="#a78bfa" />
-        <circle cx="24" cy="40" r="4" fill="#818cf8" />
-        <circle cx="40" cy="40" r="4" fill="#818cf8" />
-        <circle cx="56" cy="40" r="4" fill="#818cf8" />
-      </svg>
+    <!-- Headline -->
+    <div class="flex-[2] flex flex-col items-center sm:items-start text-center sm:text-left">
+      <h1 class="text-3xl sm:text-5xl font-medium leading-tight text-black mb-2 max-w-2xl">{title}</h1>
+      {#if subtitle}
+        <p class="text-lg text-gray-600">{subtitle}</p>
+      {/if}
     </div>
+    <!-- Button Group -->
+    <div class="flex-1 flex items-center justify-end gap-3 w-full">
+      <button class="w-12 h-12 rounded-full bg-gray-100 text-2xl font-bold flex items-center justify-center">-</button>
+      <button class="px-8 py-3 rounded-full bg-gray-900 text-white font-semibold text-lg shadow hover:bg-gray-800 transition">LET'S TALK <span class="ml-2">•</span></button>
+      <button class="px-6 py-3 rounded-full bg-gray-100 text-gray-900 font-semibold text-lg flex items-center gap-2">MENU <span class="text-2xl">••</span></button>
+    </div>
+  </div>
+
+  <!-- Visual/3D Placeholder -->
+  <div class="w-full h-[340px] sm:h-[420px] bg-gradient-to-br from-black via-zinc-900 to-zinc-800 rounded-2xl flex items-center justify-center overflow-hidden mt-2 mb-2">
+    <!-- Placeholder for 3D/graphic visual -->
+    <span class="text-5xl text-gray-400 opacity-30 select-none">[ 3D VISUAL HERE ]</span>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="flex items-center justify-between w-full px-2 py-3">
+    <span class="text-3xl font-light text-black">+</span>
+    <span class="text-base font-medium text-black tracking-wide">SCROLL TO EXPLORE</span>
+    <span class="text-3xl font-light text-black">+</span>
   </div>
 </div> 
